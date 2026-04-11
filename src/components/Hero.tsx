@@ -50,8 +50,8 @@ const Hero = () => {
 
   return (
   // Stack columns on small screens, side-by-side on md+
-  // Add top padding to compensate for the fixed header so headings are not overlapped
-  <section className="relative min-h-[70vh] md:min-h-[80vh] flex flex-col md:flex-row overflow-hidden pt-16 md:pt-20">
+  // Add top margin to compensate for the fixed header so the hero starts directly below it.
+  <section className="relative min-h-[70vh] md:min-h-[80vh] flex flex-col md:flex-row overflow-hidden mt-20 md:mt-24">
   {/* Left Column - Content Area (40% width). On small screens we show images first, so order this second on mobile */}
   <div className="order-2 md:order-1 w-full md:w-[35%] bg-[#282a2e] flex items-center py-6 md:py-8 px-4 md:px-6 lg:px-8">
         <div className="w-full max-w-md">
@@ -201,18 +201,16 @@ const Hero = () => {
         </div>
       </div>
 
-    {/* Right Column - Visual Area (60% width). Visible on small screens and stacked above content
-      We add a mobile min-height so the absolutely-positioned background images have visible space. */}
-  <div className="order-1 md:order-2 w-full md:w-[65%] flex items-center justify-center bg-white">
-        <div className="w-full flex flex-col items-center justify-center">
+    {/* Right Column - Visual Area (60% width). */}
+  <div className="order-1 md:order-2 w-full md:w-[65%] bg-white">
+        <div className="relative w-full h-[42vh] min-h-[320px] md:h-full md:min-h-[80vh]">
           <img
             src={heroImages[currentImageIndex]}
             alt="Warehouse"
-            className="w-full h-auto max-h-[50vh] md:max-h-[60vh] object-cover object-center rounded-lg shadow-lg transition-all duration-500"
-            style={{ minHeight: '300px' }}
+            className="w-full h-full object-cover object-center transition-all duration-500"
           />
           {/* Animated image indicator dots */}
-          <div className="mt-4 flex justify-center gap-3">
+          <div className="absolute bottom-5 left-0 right-0 flex justify-center gap-3">
             {heroImages.map((_, idx) => (
               <button
                 key={idx}
