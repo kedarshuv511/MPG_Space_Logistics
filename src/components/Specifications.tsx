@@ -375,7 +375,7 @@ const Specifications = () => {
 
   return (
     <section id="specifications" className="py-24">
-      <div className="container mx-auto px-4">
+      <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-5xl md:text-6xl font-bold mb-4">Cutting-Edge Warehouse Specifications</h2>
           <p className="text-2xl text-muted-foreground max-w-2xl mx-auto">
@@ -485,19 +485,39 @@ const Specifications = () => {
           </div>
         </div>
 
-        {/* Location Advantages (full-bleed on desktop to use the side whitespace) */}
-        <div className="mt-16">
-          <div className="relative left-1/2 right-1/2 w-screen -ml-[50vw] -mr-[50vw]">
-            <div className="mx-auto max-w-[1600px] px-3 sm:px-4 md:px-8">
-              <div className="flex items-center gap-3 mb-6 mt-12">
-                <div className="w-2 h-2 rounded-full bg-primary" />
-                <h3 className="text-xl md:text-2xl font-bold tracking-tight">Location Advantages</h3>
-              </div>
+        {/* Location Advantages (wider than the rest, without horizontal overflow) */}
+        <div className="max-w-[1600px] mx-auto mt-16">
+          <div className="mb-6 mt-12">
+            <h3 className="text-primary text-3xl md:text-4xl font-extrabold tracking-wide uppercase">
+              Location Advantages
+            </h3>
+            <div className="mt-3 h-1 w-24 bg-primary" />
+          </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-[65%_35%] gap-6 items-start">
-            {/* On mobile, show options first, then the map */}
-            <div className="order-2 md:order-1 rounded-lg overflow-hidden border bg-white/50">
-              <div className="h-[34vh] sm:h-[42vh] md:h-[70vh] w-full">
+          {/* Category row (centered, one line, no scrolling) */}
+          <div className="flex justify-center mb-4">
+            <div className="flex flex-nowrap items-center justify-center gap-2">
+	              {locationGroups.map((g) => (
+	                <button
+	                  key={g.id}
+	                  type="button"
+	                  onClick={() => setActiveLocationGroup(g.id)}
+	                  className={`px-3 sm:px-4 md:px-5 py-2 md:py-2.5 rounded-full text-xs sm:text-sm md:text-base font-semibold border transition-colors whitespace-nowrap ${
+	                    activeLocationGroup === g.id
+	                      ? "bg-primary text-white border-primary"
+	                      : "bg-white text-foreground border-slate-200 hover:border-primary/30 hover:bg-primary/5"
+	                  }`}
+	                >
+                  {g.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-[65%_35%] gap-6 items-start">
+            {/* Map (left) */}
+            <div className="rounded-lg overflow-hidden border bg-white/50">
+              <div className="h-[45vh] md:h-[70vh] w-full">
                 {googleMapsApiKey ? (
                   <DirectionsMap
                     apiKey={googleMapsApiKey}
@@ -526,7 +546,8 @@ const Specifications = () => {
               </div>
             </div>
 
-            <div className="order-1 md:order-2 flex flex-col space-y-4 md:h-[70vh]">
+            {/* Options + submenus (right) */}
+            <div className="flex flex-col space-y-4 md:h-[70vh]">
               <div className="p-4 bg-white rounded-lg border shadow-sm">
                 <h4 className="font-bold text-lg mb-2">Why this location matters</h4>
                 <p className="text-sm text-muted-foreground">
@@ -534,25 +555,6 @@ const Specifications = () => {
                 </p>
               </div>
 
-              {/* Quick filters (optional) */}
-              <div className="flex gap-2 overflow-x-auto whitespace-nowrap pb-1">
-                {locationGroups.map((g) => (
-                  <button
-                    key={g.id}
-                    type="button"
-                    onClick={() => setActiveLocationGroup(g.id)}
-                    className={`flex-shrink-0 px-3 py-2 rounded-full text-sm font-semibold border transition-colors ${
-                      activeLocationGroup === g.id
-                        ? "bg-primary text-white border-primary"
-                        : "bg-white text-foreground border-slate-200 hover:border-primary/30 hover:bg-primary/5"
-                    }`}
-                  >
-                    {g.label}
-                  </button>
-                ))}
-              </div>
-
-              {/* On mobile, avoid a nested scroll area (hard to use with an iframe nearby). */}
               <div className="grid grid-cols-1 gap-3 md:overflow-y-auto md:pr-2">
                 {filteredLocationItems.map((item) => {
                   const Icon = item.icon;
@@ -587,8 +589,8 @@ const Specifications = () => {
                           <Icon className="h-6 w-6 text-primary" />
                           <span className="sr-only">{item.label}</span>
                         </div>
-                        <div className="flex-1">
-                          <div className="font-semibold">{item.label}</div>
+                        <div className="flex-1 min-w-0">
+                          <div className="font-semibold truncate">{item.label}</div>
                           <div className="text-sm text-muted-foreground">{item.value}</div>
                         </div>
                         {shouldOpenOnHover && hasChildren && (
@@ -598,7 +600,6 @@ const Specifications = () => {
                         )}
                       </button>
 
-                      {/* Submenu for groups (parks/highways) */}
                       {shouldOpenOnHover && isOpen && item.children?.length ? (
                         <div className="pl-6 grid grid-cols-1 gap-2">
                           {item.children.map((child) => {
@@ -621,8 +622,8 @@ const Specifications = () => {
                                 <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/5 border border-primary/20 flex items-center justify-center">
                                   <ChildIcon className="h-5 w-5 text-primary" />
                                 </div>
-                                <div className="flex-1">
-                                  <div className="font-semibold text-sm">{child.label}</div>
+                                <div className="flex-1 min-w-0">
+                                  <div className="font-semibold text-sm truncate">{child.label}</div>
                                   <div className="text-xs text-muted-foreground">{child.value}</div>
                                 </div>
                               </button>
@@ -634,8 +635,6 @@ const Specifications = () => {
                   );
                 })}
               </div>
-            </div>
-          </div>
             </div>
           </div>
         </div>
