@@ -485,14 +485,16 @@ const Specifications = () => {
           </div>
         </div>
 
-        {/* Location Advantages (static curated) */}
-        <div className="max-w-7xl mx-auto mt-16 px-6 md:px-12">
-          <div className="flex items-center gap-3 mb-6 mt-12">
-            <div className="w-2 h-2 rounded-full bg-primary" />
-            <h3 className="text-xl md:text-2xl font-bold tracking-tight">Location Advantages</h3>
-          </div>
+        {/* Location Advantages (full-bleed on desktop to use the side whitespace) */}
+        <div className="mt-16">
+          <div className="relative left-1/2 right-1/2 w-screen -ml-[50vw] -mr-[50vw]">
+            <div className="mx-auto max-w-[1600px] px-3 sm:px-4 md:px-8">
+              <div className="flex items-center gap-3 mb-6 mt-12">
+                <div className="w-2 h-2 rounded-full bg-primary" />
+                <h3 className="text-xl md:text-2xl font-bold tracking-tight">Location Advantages</h3>
+              </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-[60%_40%] gap-6 items-start">
+              <div className="grid grid-cols-1 md:grid-cols-[65%_35%] gap-6 items-start">
             {/* On mobile, show options first, then the map */}
             <div className="order-2 md:order-1 rounded-lg overflow-hidden border bg-white/50">
               <div className="h-[34vh] sm:h-[42vh] md:h-[70vh] w-full">
@@ -632,6 +634,8 @@ const Specifications = () => {
                   );
                 })}
               </div>
+            </div>
+          </div>
             </div>
           </div>
         </div>
