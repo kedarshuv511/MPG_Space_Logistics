@@ -25,7 +25,7 @@ const galleryItems = [
     type: 'image',
     title: 'Main Warehouse Front View',
     description: 'Entrance showing Grade A construction',
-    image: 'https://images.unsplash.com/photo-1567767292278-a4f21aa2d36e?w=1200&q=80',
+    image: '/src/assets/R2_View-9.jpg',
   },
   {
     id: 2,
@@ -33,7 +33,7 @@ const galleryItems = [
     type: 'image',
     title: 'Side View of Facility',
     description: '125,000 sq ft built-up area',
-    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&q=80',
+    image: '/src/assets/R2_View-8.jpg',
   },
   {
     id: 3,
@@ -41,11 +41,47 @@ const galleryItems = [
     type: 'image',
     title: 'Aerial View',
     description: 'Complete facility overview',
-    image: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=1200&q=80',
+    image: '/src/assets/R2_View-5.jpg',
+  },
+
+  {
+    id: 4,
+    category: 'exterior',
+    type: 'image',
+    title: 'Warehouse Side Elevation',
+    description: 'Detailed view showcasing the side elevation of the warehouse structure',
+    image: '/src/assets/R2_View-1.jpg',
+  },
+
+  {
+    id: 5,
+    category: 'exterior',
+    type: 'image',
+    title: 'Warehouse Campus View with Water Reservoir',
+    description: 'This panoramic view highlights our warehouse facility with dedicated water reservoir in a well-organized industrial setting',
+    image: '/src/assets/R2_View-10.jpg',
+  },
+
+  {
+    id: 6,
+    category: 'features',
+    type: 'image',
+    title: 'Utility & Support Services Block',
+    description: 'Dedicated to core utility and support functions, featuring water storage tanks, treatment and pumping systems, electrical facilities, and staff support rooms',
+    image: '/src/assets/R2_View-11.jpg',
+  },
+
+{
+    id: 7,
+    category: 'exterior',
+    type: 'image',
+    title: 'Utility & Support Services Block',
+    description: 'Dedicated to core utility and support functions, featuring water storage tanks, treatment and pumping systems, electrical facilities, and staff support rooms',
+    image: '/src/assets/R2_View-12.jpg',
   },
   // Interior Warehouse
   {
-    id: 4,
+    id: 8,
     category: 'interior',
     type: 'image',
     title: 'Main Warehouse Space',
@@ -53,7 +89,7 @@ const galleryItems = [
     image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1200&q=80',
   },
   {
-    id: 5,
+    id: 9,
     category: 'interior',
     type: 'image',
     title: 'Storage Area',
@@ -61,7 +97,7 @@ const galleryItems = [
     image: 'https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?w=800&q=80',
   },
   {
-    id: 6,
+    id: 10,
     category: 'interior',
     type: 'image',
     title: 'Mezzanine Floor',
@@ -70,32 +106,32 @@ const galleryItems = [
   },
   // Loading Docks & Features
   {
-    id: 7,
+    id: 11,
     category: 'features',
     type: 'image',
     title: 'Loading Docks',
     description: '27 loading docks with dock levellers',
-    image: 'https://images.unsplash.com/photo-1615876234886-fd9a39fda97f?w=800&q=80',
+    image: '/src/assets/main_3.png',
   },
   {
-    id: 8,
+    id: 12,
     category: 'features',
     type: 'image',
     title: 'Dock Area',
     description: '28-meter driveway, 4-feet dock height',
-    image: 'https://images.unsplash.com/photo-1600891964092-4316c288032e?w=800&q=80',
+    image: '/src/assets/R2_View-4.jpg',
   },
   {
-    id: 9,
+    id: 13,
     category: 'features',
     type: 'image',
-    title: 'Flooring Detail',
-    description: 'FM-2 industrial grade flooring',
-    image: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&q=80',
+    title: 'Warehouse Entrance & Administrative Block',
+    description: 'Warehouse Entrance & Administrative Block',
+    image: '/src/assets/R2_View-7.jpg',
   },
   // Drone Video
   {
-    id: 10,
+    id: 14,
     category: 'exterior',
     type: 'video',
     title: 'Drone Video Tour',

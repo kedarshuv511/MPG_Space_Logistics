@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Star, MapPin, Check } from "lucide-react";
 import { Drawer, DrawerTrigger, DrawerContent, DrawerClose, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
-import mainImage from "@/assets/Main_image.png";
+import mainImage from "@/assets/Main_image.jpg";
 import mainImage2 from "@/assets/main_2.png";
 import mainImage3 from "@/assets/main_3.png";
 import mainImage4 from "@/assets/main_4.png";
@@ -10,7 +10,7 @@ import mainImage5 from "@/assets/main_5.png";
 
 // Array of warehouse images in your preferred order
 const heroImages = [
-  mainImage,   // Main_image.png
+  mainImage,   // Main_image.jpg
   mainImage3,  // main_3.png
   mainImage2,  // main_2.png
   mainImage5,  // main_5.png
