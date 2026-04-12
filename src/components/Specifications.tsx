@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import { Train, Airplay, Map } from "lucide-react";
 import { Ship } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 // I. Dimensions & Capacity
 const dimensionsCapacity = [
@@ -67,7 +67,7 @@ const siteOperationalAmenities = [
 const Specifications = () => {
   const ORIGIN_COORDS = "28.455,76.656944";
 
-  type LocationGroup = "all" | "rail" | "airport" | "seaport" | "road" | "parks";
+  type LocationGroup = "all" | "rail" | "airport" | "seaport" | "nh" | "sh" | "road" | "parks";
   type LocationItem = {
     id: string;
     group: Exclude<LocationGroup, "all">;
@@ -83,6 +83,8 @@ const Specifications = () => {
     { id: "airport", label: "Airport" },
     { id: "seaport", label: "Seaport" },
     { id: "rail", label: "Railway" },
+    { id: "nh", label: "National Highways" },
+    { id: "sh", label: "State Highways" },
     { id: "road", label: "Road / Hubs" },
     { id: "parks", label: "Industrial Parks" },
   ];
@@ -96,6 +98,34 @@ const Specifications = () => {
     { id: "hisar-airport", group: "airport", icon: Airplay, label: "Hisar Airport (domestic)", value: "~120 KM", destination: "Hisar Airport" },
 
     { id: "kandla-port", group: "seaport", icon: Ship, label: "Kandla Port (Seaport)", value: "Long-haul", destination: "Deendayal Port Authority (Kandla Port)" },
+
+    {
+      id: "national-highways",
+      group: "nh",
+      icon: Compass,
+      label: "National Highways (Nearby)",
+      value: "Multiple",
+      destination: "NH 71, Haryana",
+      children: [
+        { id: "nh-71", group: "nh", icon: Compass, label: "NH 71 (Nearest Point: Amadalpur / Rewari–Jhajjar Hwy)", value: "On-site", destination: "NH 71, Amadalpur, Rewari, Haryana" },
+        { id: "nh-48", group: "nh", icon: Compass, label: "NH 48 (Nearest Access Point)", value: "Nearby", destination: "Bilaspur Chowk, NH 48, Gurugram, Haryana" },
+        { id: "nh-352w", group: "nh", icon: Compass, label: "NH 352W (Jhajjar / Rohtak side)", value: "Nearby", destination: "NH 352W, Haryana" },
+      ],
+    },
+    {
+      id: "state-highways",
+      group: "sh",
+      icon: Map,
+      label: "State Highways / Key State Roads",
+      value: "Multiple",
+      destination: "Rewari, Haryana",
+      children: [
+        // These are modeled as "state roads" so you can rename to the exact SH numbers/names you prefer.
+        { id: "sh-rewari-jhajjar", group: "sh", icon: Map, label: "Rewari–Jhajjar Road", value: "Nearby", destination: "Rewari Jhajjar Road, Haryana" },
+        { id: "sh-rewari-pataudi", group: "sh", icon: Map, label: "Rewari–Pataudi Road", value: "Nearby", destination: "Rewari Pataudi Road, Haryana" },
+        { id: "sh-jhajjar-rohtak", group: "sh", icon: Map, label: "Jhajjar–Rohtak Road", value: "Nearby", destination: "Jhajjar Rohtak Road, Haryana" },
+      ],
+    },
 
     { id: "gurugram-hubs", group: "road", icon: Map, label: "Gurugram / Industrial Hubs", value: "~40 KM", destination: "Gurugram, Haryana" },
     { id: "imt-manesar", group: "road", icon: Map, label: "IMT Manesar", value: "~40 KM", destination: "IMT Manesar, Gurugram, Haryana" },
@@ -121,7 +151,22 @@ const Specifications = () => {
 
   const [activeLocationGroup, setActiveLocationGroup] = useState<LocationGroup>("all");
   const [selectedLocationId, setSelectedLocationId] = useState<string | null>(null);
-  const [parksOpen, setParksOpen] = useState<boolean>(false);
+  const [openParentId, setOpenParentId] = useState<string | null>(null);
+  const hoverTimerRef = useRef<number | null>(null);
+
+  const queueSelectLocation = (id: string, opts?: { openSubmenu?: boolean }) => {
+    if (hoverTimerRef.current) window.clearTimeout(hoverTimerRef.current);
+    hoverTimerRef.current = window.setTimeout(() => {
+      setSelectedLocationId(id);
+      if (opts?.openSubmenu) setOpenParentId(id);
+    }, 80);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (hoverTimerRef.current) window.clearTimeout(hoverTimerRef.current);
+    };
+  }, []);
 
   const flattenedLocationItems = useMemo(() => {
     const flat: LocationItem[] = [];
@@ -142,6 +187,8 @@ const Specifications = () => {
     return locationItems.filter((item) => group === "all" || item.group === group);
   }, [activeLocationGroup]);
 
+  const googleMapsApiKey = (import.meta as any).env?.VITE_GOOGLE_MAPS_API_KEY as string | undefined;
+
   const mapEmbedSrc = useMemo(() => {
     if (!selectedLocation) {
       return `https://www.google.com/maps?q=${encodeURIComponent(ORIGIN_COORDS)}&z=12&output=embed`;
@@ -160,6 +207,111 @@ const Specifications = () => {
       selectedLocation.destination
     )}&travelmode=driving`;
   }, [ORIGIN_COORDS, selectedLocation]);
+
+  const DirectionsMap = ({
+    apiKey,
+    origin,
+    destination,
+  }: {
+    apiKey: string;
+    origin: { lat: number; lng: number };
+    destination: string | null;
+  }) => {
+    const mapElRef = useRef<HTMLDivElement | null>(null);
+    const mapRef = useRef<any>(null);
+    const rendererRef = useRef<any>(null);
+    const serviceRef = useRef<any>(null);
+    const [ready, setReady] = useState(false);
+
+    const loadScript = (key: string) => {
+      return new Promise<void>((resolve, reject) => {
+        const w = window as any;
+        if (w.google?.maps) return resolve();
+
+        const existing = document.getElementById("google-maps-js");
+        if (existing) {
+          existing.addEventListener("load", () => resolve());
+          existing.addEventListener("error", () => reject(new Error("Google Maps script failed to load")));
+          return;
+        }
+
+        const script = document.createElement("script");
+        script.id = "google-maps-js";
+        script.async = true;
+        script.defer = true;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(key)}`;
+        script.onload = () => resolve();
+        script.onerror = () => reject(new Error("Google Maps script failed to load"));
+        document.head.appendChild(script);
+      });
+    };
+
+    useEffect(() => {
+      let cancelled = false;
+      loadScript(apiKey)
+        .then(() => {
+          if (cancelled) return;
+          const w = window as any;
+          if (!mapElRef.current) return;
+
+          mapRef.current = new w.google.maps.Map(mapElRef.current, {
+            center: origin,
+            zoom: 11,
+            mapTypeControl: false,
+            fullscreenControl: false,
+            streetViewControl: false,
+          });
+          rendererRef.current = new w.google.maps.DirectionsRenderer({
+            map: mapRef.current,
+            suppressMarkers: false,
+            preserveViewport: false,
+          });
+          serviceRef.current = new w.google.maps.DirectionsService();
+          setReady(true);
+        })
+        .catch(() => {
+          // If the JS API cannot load (missing key / blocked), we'll silently fall back to iframe embed below.
+          setReady(false);
+        });
+
+      return () => {
+        cancelled = true;
+        try {
+          if (rendererRef.current) rendererRef.current.setMap(null);
+        } catch {
+          // ignore
+        }
+      };
+    }, [apiKey, origin.lat, origin.lng]);
+
+    useEffect(() => {
+      if (!ready) return;
+      if (!destination) return;
+      const w = window as any;
+      const service = serviceRef.current;
+      const renderer = rendererRef.current;
+      if (!service || !renderer) return;
+
+      service.route(
+        {
+          origin,
+          destination,
+          travelMode: w.google.maps.TravelMode.DRIVING,
+        },
+        (result: any, status: any) => {
+          if (status === w.google.maps.DirectionsStatus.OK && result) {
+            renderer.setDirections(result);
+            const bounds = result?.routes?.[0]?.bounds;
+            if (bounds && mapRef.current?.fitBounds) {
+              mapRef.current.fitBounds(bounds);
+            }
+          }
+        }
+      );
+    }, [ready, destination, origin]);
+
+    return <div ref={mapElRef} className="w-full h-full" />;
+  };
 
   const primaryMetrics = useMemo(() => {
     return dimensionsCapacity.filter((d) =>
@@ -341,14 +493,23 @@ const Specifications = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-[60%_40%] gap-6 items-start">
-            <div className="rounded-lg overflow-hidden border bg-white/50">
-              <div className="h-[45vh] md:h-[70vh] w-full">
-                <iframe
-                  title="Warehouse location map"
-                  src={mapEmbedSrc}
-                  className="w-full h-full"
-                  loading="lazy"
-                />
+            {/* On mobile, show options first, then the map */}
+            <div className="order-2 md:order-1 rounded-lg overflow-hidden border bg-white/50">
+              <div className="h-[34vh] sm:h-[42vh] md:h-[70vh] w-full">
+                {googleMapsApiKey ? (
+                  <DirectionsMap
+                    apiKey={googleMapsApiKey}
+                    origin={{ lat: 28.455, lng: 76.656944 }}
+                    destination={selectedLocation?.destination ?? null}
+                  />
+                ) : (
+                  <iframe
+                    title="Warehouse location map"
+                    src={mapEmbedSrc}
+                    className="w-full h-full"
+                    loading="lazy"
+                  />
+                )}
               </div>
               <div className="p-3 flex items-center justify-between bg-white/60 border-t">
                 <a
@@ -363,7 +524,7 @@ const Specifications = () => {
               </div>
             </div>
 
-            <div className="flex flex-col space-y-4 h-[45vh] md:h-[70vh]">
+            <div className="order-1 md:order-2 flex flex-col space-y-4 md:h-[70vh]">
               <div className="p-4 bg-white rounded-lg border shadow-sm">
                 <h4 className="font-bold text-lg mb-2">Why this location matters</h4>
                 <p className="text-sm text-muted-foreground">
@@ -372,13 +533,13 @@ const Specifications = () => {
               </div>
 
               {/* Quick filters (optional) */}
-              <div className="flex flex-wrap gap-2">
+              <div className="flex gap-2 overflow-x-auto whitespace-nowrap pb-1">
                 {locationGroups.map((g) => (
                   <button
                     key={g.id}
                     type="button"
                     onClick={() => setActiveLocationGroup(g.id)}
-                    className={`px-3 py-2 rounded-full text-sm font-semibold border transition-colors ${
+                    className={`flex-shrink-0 px-3 py-2 rounded-full text-sm font-semibold border transition-colors ${
                       activeLocationGroup === g.id
                         ? "bg-primary text-white border-primary"
                         : "bg-white text-foreground border-slate-200 hover:border-primary/30 hover:bg-primary/5"
@@ -389,11 +550,17 @@ const Specifications = () => {
                 ))}
               </div>
 
-              <div className="overflow-y-auto pr-2 grid grid-cols-1 gap-3">
+              {/* On mobile, avoid a nested scroll area (hard to use with an iframe nearby). */}
+              <div className="grid grid-cols-1 gap-3 md:overflow-y-auto md:pr-2">
                 {filteredLocationItems.map((item) => {
                   const Icon = item.icon;
                   const isSelected = selectedLocationId === item.id;
                   const isParksParent = item.id === "nearby-parks";
+                  const isNationalHighwaysParent = item.id === "national-highways";
+                  const isStateHighwaysParent = item.id === "state-highways";
+                  const hasChildren = !!item.children?.length;
+                  const shouldOpenOnHover = isParksParent || isNationalHighwaysParent || isStateHighwaysParent;
+                  const isOpen = openParentId === item.id;
 
                   return (
                     <div key={item.id} className="space-y-2">
@@ -401,8 +568,12 @@ const Specifications = () => {
                         type="button"
                         onClick={() => {
                           setSelectedLocationId(item.id);
-                          if (isParksParent) setParksOpen((v) => !v);
+                          if (shouldOpenOnHover && hasChildren) {
+                            setOpenParentId((prev) => (prev === item.id ? null : item.id));
+                          }
                         }}
+                        onMouseEnter={() => queueSelectLocation(item.id, { openSubmenu: shouldOpenOnHover && hasChildren })}
+                        onFocus={() => queueSelectLocation(item.id, { openSubmenu: shouldOpenOnHover && hasChildren })}
                         className={`w-full text-left flex items-center gap-4 p-4 rounded-lg border shadow-sm transition-all ${
                           isSelected
                             ? "bg-primary/5 border-primary/30 ring-2 ring-primary/20"
@@ -418,15 +589,15 @@ const Specifications = () => {
                           <div className="font-semibold">{item.label}</div>
                           <div className="text-sm text-muted-foreground">{item.value}</div>
                         </div>
-                        {isParksParent && (
+                        {shouldOpenOnHover && hasChildren && (
                           <div className="text-xs font-semibold text-muted-foreground">
-                            {parksOpen ? "Hide" : "Show"}
+                            {isOpen ? "Hide" : "Show"}
                           </div>
                         )}
                       </button>
 
-                      {/* Submenu for nearby parks */}
-                      {isParksParent && parksOpen && item.children?.length ? (
+                      {/* Submenu for groups (parks/highways) */}
+                      {shouldOpenOnHover && isOpen && item.children?.length ? (
                         <div className="pl-6 grid grid-cols-1 gap-2">
                           {item.children.map((child) => {
                             const ChildIcon = child.icon;
@@ -436,6 +607,8 @@ const Specifications = () => {
                                 key={child.id}
                                 type="button"
                                 onClick={() => setSelectedLocationId(child.id)}
+                                onMouseEnter={() => queueSelectLocation(child.id)}
+                                onFocus={() => queueSelectLocation(child.id)}
                                 className={`w-full text-left flex items-center gap-3 p-3 rounded-lg border transition-all ${
                                   childSelected
                                     ? "bg-primary/5 border-primary/30 ring-2 ring-primary/20"
