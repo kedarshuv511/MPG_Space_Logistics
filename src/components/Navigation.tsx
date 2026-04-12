@@ -61,7 +61,7 @@ const Navigation = () => {
               <div className="flex items-center gap-2">
                 <Mail className="h-5 w-5 text-primary" />
                 <a
-                  href="mailto:mpgspacelogistics@gmail.com"
+                  href="mailto:vishesh@mpgspacelogistics.in"
                   onClick={(e) => {
                     // fire analytics then let mailto proceed
                     // @ts-ignore
@@ -69,7 +69,7 @@ const Navigation = () => {
                   }}
                   className="text-foreground font-medium underline"
                 >
-                  mpgspacelogistics@gmail.com
+                  vishesh@mpgspacelogistics.in
                 </a>
               </div>
             </div>
