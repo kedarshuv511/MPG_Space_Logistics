@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
 import { Drawer, DrawerTrigger, DrawerContent, DrawerClose, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
 import { FormEvent, useState } from "react";
+import sendMessageImg from "@/assets/sned_message.jpg";
 
 const Contact = () => {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
@@ -128,6 +129,18 @@ const Contact = () => {
                   {status === 'sending' ? 'Sending…' : 'Send Message'}
                   <Send className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
+
+                <div className="mt-6 rounded-lg border bg-slate-50 overflow-hidden">
+                  <img
+                    src={sendMessageImg}
+                    alt="Send message illustration"
+                    className="w-full h-56 md:h-64 object-contain"
+                    loading="lazy"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).style.display = "none";
+                    }}
+                  />
+                </div>
               </form>
               {status === 'success' && (
                 <div className="mt-4 p-4 rounded bg-green-50 border border-green-200 text-green-800">

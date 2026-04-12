@@ -47,7 +47,7 @@ const buildingInfrastructure = [
 
 // III. Key Utilities & Safety
 const keyUtilitiesSafety = [
-  { title: "Fire Safety System (NFPA Compliant)", description: "Automatic hydrants, hose reels, and extinguishers", icon: Flame },
+  { title: "Fire Safety System (NFPA Compliant)", description: "Ceiling sprinklers, Automatic hydrants, hose reels, and extinguishers", icon: Flame },
   { title: "Electricity & Pump Room", description: "Dedicated utility infrastructure", icon: Bolt },
   { title: "STP & Water Storage", description: "On-site sewage treatment and reserve tanks", icon: Lightbulb },
   { title: "Rain Water Harvesting", description: "Sustainable stormwater capture and recharge", icon: Droplet },

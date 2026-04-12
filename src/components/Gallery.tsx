@@ -104,7 +104,7 @@ const galleryItems = [
     type: 'image',
     title: 'Mezzanine Floor',
     description: '565 sq meter mezzanine level',
-    image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&q=80',
+    image: '/src/assets/R2_View-13.jpg',
   },
   // Loading Docks & Features
   {
