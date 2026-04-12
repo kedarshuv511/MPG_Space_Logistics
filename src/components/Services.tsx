@@ -61,7 +61,7 @@ const Services = () => {
 										Strategic location for{" "}
 										<span className="text-primary">Delhi NCR</span> distribution
 									</h3>
-									<div className="mt-4 space-y-4 text-base md:text-lg text-muted-foreground leading-relaxed">
+									<div className="mt-4 space-y-4 text-base md:text-lg text-muted-foreground leading-relaxed text-justify indent-6">
 										<p>
 											MPG Space & Logistics is a Grade A warehouse on the Jhajjar–Rewari
 											belt, positioned to cover Delhi NCR consumption demand and the
