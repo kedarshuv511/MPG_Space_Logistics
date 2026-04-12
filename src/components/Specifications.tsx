@@ -18,7 +18,8 @@ import {
   Briefcase,
 } from "lucide-react";
 import { Train, Airplay, Map } from "lucide-react";
-import { useMemo } from "react";
+import { Ship } from "lucide-react";
+import { useMemo, useState } from "react";
 
 // I. Dimensions & Capacity
 const dimensionsCapacity = [
@@ -64,6 +65,102 @@ const siteOperationalAmenities = [
 ];
 
 const Specifications = () => {
+  const ORIGIN_COORDS = "28.455,76.656944";
+
+  type LocationGroup = "all" | "rail" | "airport" | "seaport" | "road" | "parks";
+  type LocationItem = {
+    id: string;
+    group: Exclude<LocationGroup, "all">;
+    icon: any;
+    label: string;
+    value: string;
+    destination: string; // Address/place query (Google will resolve it)
+    children?: LocationItem[];
+  };
+
+  const locationGroups: { id: LocationGroup; label: string }[] = [
+    { id: "all", label: "All" },
+    { id: "airport", label: "Airport" },
+    { id: "seaport", label: "Seaport" },
+    { id: "rail", label: "Railway" },
+    { id: "road", label: "Road / Hubs" },
+    { id: "parks", label: "Industrial Parks" },
+  ];
+
+  const locationItems: LocationItem[] = [
+    { id: "delhi-railway", group: "rail", icon: Train, label: "Delhi Railway Station", value: "~72 KM", destination: "New Delhi Railway Station" },
+    { id: "rohtak-junction", group: "rail", icon: Train, label: "Rohtak Junction", value: "~45 KM", destination: "Rohtak Junction Railway Station" },
+    { id: "rewari-junction", group: "rail", icon: Train, label: "Rewari Junction", value: "~35 KM", destination: "Rewari Junction Railway Station" },
+
+    { id: "delhi-airport", group: "airport", icon: Airplay, label: "Delhi Airport (Indira Gandhi Intl)", value: "~60 KM", destination: "Indira Gandhi International Airport" },
+    { id: "hisar-airport", group: "airport", icon: Airplay, label: "Hisar Airport (domestic)", value: "~120 KM", destination: "Hisar Airport" },
+
+    { id: "kandla-port", group: "seaport", icon: Ship, label: "Kandla Port (Seaport)", value: "Long-haul", destination: "Deendayal Port Authority (Kandla Port)" },
+
+    { id: "gurugram-hubs", group: "road", icon: Map, label: "Gurugram / Industrial Hubs", value: "~40 KM", destination: "Gurugram, Haryana" },
+    { id: "imt-manesar", group: "road", icon: Map, label: "IMT Manesar", value: "~40 KM", destination: "IMT Manesar, Gurugram, Haryana" },
+    { id: "kmp-junction", group: "road", icon: Compass, label: "KMP Expressway (junction)", value: "~22 KM", destination: "KMP Expressway" },
+    { id: "bilaspur-chowk", group: "road", icon: Briefcase, label: "Bilaspur Chowk", value: "~18 KM", destination: "Bilaspur Chowk, Gurugram, Haryana" },
+
+    {
+      id: "nearby-parks",
+      group: "parks",
+      icon: Briefcase,
+      label: "Nearby Logistics / Industrial Parks (Kundli, Manesar clusters)",
+      value: "Regional",
+      destination: "Kundli Industrial Area, Sonipat, Haryana",
+      children: [
+        // Update/replace these destinations with your preferred parks (names/addresses).
+        { id: "kundli-industrial-area", group: "parks", icon: Briefcase, label: "Kundli Industrial Area (Sonipat)", value: "Regional", destination: "Kundli Industrial Area, Sonipat, Haryana" },
+        { id: "manesar-industrial-cluster", group: "parks", icon: Briefcase, label: "Manesar Industrial Cluster", value: "Regional", destination: "Manesar, Gurugram, Haryana" },
+        { id: "bhiwadi-industrial-area", group: "parks", icon: Briefcase, label: "Bhiwadi Industrial Area", value: "Regional", destination: "Bhiwadi, Rajasthan" },
+        { id: "dharuhera-industrial-area", group: "parks", icon: Briefcase, label: "Dharuhera Industrial Area", value: "Regional", destination: "Dharuhera, Haryana" },
+      ],
+    },
+  ];
+
+  const [activeLocationGroup, setActiveLocationGroup] = useState<LocationGroup>("all");
+  const [selectedLocationId, setSelectedLocationId] = useState<string | null>(null);
+  const [parksOpen, setParksOpen] = useState<boolean>(false);
+
+  const flattenedLocationItems = useMemo(() => {
+    const flat: LocationItem[] = [];
+    for (const item of locationItems) {
+      flat.push(item);
+      if (item.children?.length) flat.push(...item.children);
+    }
+    return flat;
+  }, []);
+
+  const selectedLocation = useMemo(() => {
+    if (!selectedLocationId) return null;
+    return flattenedLocationItems.find((i) => i.id === selectedLocationId) ?? null;
+  }, [flattenedLocationItems, selectedLocationId]);
+
+  const filteredLocationItems = useMemo(() => {
+    const group = activeLocationGroup;
+    return locationItems.filter((item) => group === "all" || item.group === group);
+  }, [activeLocationGroup]);
+
+  const mapEmbedSrc = useMemo(() => {
+    if (!selectedLocation) {
+      return `https://www.google.com/maps?q=${encodeURIComponent(ORIGIN_COORDS)}&z=12&output=embed`;
+    }
+    const saddr = encodeURIComponent(ORIGIN_COORDS);
+    const daddr = encodeURIComponent(selectedLocation.destination);
+    // This embed form renders Google’s standard directions view (blue route) without requiring a JS API integration.
+    return `https://www.google.com/maps?output=embed&z=11&saddr=${saddr}&daddr=${daddr}&dirflg=d`;
+  }, [ORIGIN_COORDS, selectedLocation]);
+
+  const openInGoogleMapsHref = useMemo(() => {
+    if (!selectedLocation) {
+      return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ORIGIN_COORDS)}`;
+    }
+    return `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(ORIGIN_COORDS)}&destination=${encodeURIComponent(
+      selectedLocation.destination
+    )}&travelmode=driving`;
+  }, [ORIGIN_COORDS, selectedLocation]);
+
   const primaryMetrics = useMemo(() => {
     return dimensionsCapacity.filter((d) =>
       ["Built-Up Area", "Land Area", "Parking Area"].includes(d.label)
@@ -248,14 +345,14 @@ const Specifications = () => {
               <div className="h-[45vh] md:h-[70vh] w-full">
                 <iframe
                   title="Warehouse location map"
-                  src={`https://www.google.com/maps?q=28.455,76.656944&z=12&output=embed`}
+                  src={mapEmbedSrc}
                   className="w-full h-full"
                   loading="lazy"
                 />
               </div>
               <div className="p-3 flex items-center justify-between bg-white/60 border-t">
                 <a
-                  href={`https://www.google.com/maps/search/?api=1&query=28.455,76.656944`}
+                  href={openInGoogleMapsHref}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-sm text-accent underline"
@@ -274,30 +371,90 @@ const Specifications = () => {
                 </p>
               </div>
 
+              {/* Quick filters (optional) */}
+              <div className="flex flex-wrap gap-2">
+                {locationGroups.map((g) => (
+                  <button
+                    key={g.id}
+                    type="button"
+                    onClick={() => setActiveLocationGroup(g.id)}
+                    className={`px-3 py-2 rounded-full text-sm font-semibold border transition-colors ${
+                      activeLocationGroup === g.id
+                        ? "bg-primary text-white border-primary"
+                        : "bg-white text-foreground border-slate-200 hover:border-primary/30 hover:bg-primary/5"
+                    }`}
+                  >
+                    {g.label}
+                  </button>
+                ))}
+              </div>
+
               <div className="overflow-y-auto pr-2 grid grid-cols-1 gap-3">
-                {[
-                  { icon: Train, label: "Delhi Railway Station", value: "~72 KM" },
-                  { icon: Train, label: "Rohtak Junction", value: "~45 KM" },
-                  { icon: Train, label: "Rewari Junction", value: "~35 KM" },
-                  { icon: Airplay, label: "Delhi Airport (Indira Gandhi Intl)", value: "~60 KM" },
-                  { icon: Airplay, label: "Hisar Airport (domestic)", value: "~120 KM" },
-                  { icon: Map, label: "Gurugram / Industrial Hubs", value: "~40 KM" },
-                  { icon: Map, label: "IMT Manesar", value: "~40 KM" },
-                  { icon: Compass, label: "KMP Expressway (junction)", value: "~22 KM" },
-                  { icon: Briefcase, label: "Bilaspur Chowk", value: "~18 KM" },
-                  { icon: Briefcase, label: "Nearby Logistics / Industrial Parks (Kundli, Manesar clusters)", value: "Regional" },
-                ].map((p, i) => {
-                  const Icon = p.icon;
+                {filteredLocationItems.map((item) => {
+                  const Icon = item.icon;
+                  const isSelected = selectedLocationId === item.id;
+                  const isParksParent = item.id === "nearby-parks";
+
                   return (
-                    <div key={i} className="flex items-center gap-4 p-4 bg-white rounded-lg border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
-                      <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-primary/5 border border-primary/20 flex items-center justify-center">
-                        <Icon className="h-6 w-6 text-primary" />
-                        <span className="sr-only">{p.label}</span>
-                      </div>
-                      <div className="flex-1">
-                        <div className="font-semibold">{p.label}</div>
-                        <div className="text-sm text-muted-foreground">{p.value}</div>
-                      </div>
+                    <div key={item.id} className="space-y-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedLocationId(item.id);
+                          if (isParksParent) setParksOpen((v) => !v);
+                        }}
+                        className={`w-full text-left flex items-center gap-4 p-4 rounded-lg border shadow-sm transition-all ${
+                          isSelected
+                            ? "bg-primary/5 border-primary/30 ring-2 ring-primary/20"
+                            : "bg-white border-slate-200 hover:shadow-md hover:border-primary/20"
+                        }`}
+                        aria-pressed={isSelected}
+                      >
+                        <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-primary/5 border border-primary/20 flex items-center justify-center">
+                          <Icon className="h-6 w-6 text-primary" />
+                          <span className="sr-only">{item.label}</span>
+                        </div>
+                        <div className="flex-1">
+                          <div className="font-semibold">{item.label}</div>
+                          <div className="text-sm text-muted-foreground">{item.value}</div>
+                        </div>
+                        {isParksParent && (
+                          <div className="text-xs font-semibold text-muted-foreground">
+                            {parksOpen ? "Hide" : "Show"}
+                          </div>
+                        )}
+                      </button>
+
+                      {/* Submenu for nearby parks */}
+                      {isParksParent && parksOpen && item.children?.length ? (
+                        <div className="pl-6 grid grid-cols-1 gap-2">
+                          {item.children.map((child) => {
+                            const ChildIcon = child.icon;
+                            const childSelected = selectedLocationId === child.id;
+                            return (
+                              <button
+                                key={child.id}
+                                type="button"
+                                onClick={() => setSelectedLocationId(child.id)}
+                                className={`w-full text-left flex items-center gap-3 p-3 rounded-lg border transition-all ${
+                                  childSelected
+                                    ? "bg-primary/5 border-primary/30 ring-2 ring-primary/20"
+                                    : "bg-white border-slate-200 hover:border-primary/20 hover:bg-primary/5"
+                                }`}
+                                aria-pressed={childSelected}
+                              >
+                                <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/5 border border-primary/20 flex items-center justify-center">
+                                  <ChildIcon className="h-5 w-5 text-primary" />
+                                </div>
+                                <div className="flex-1">
+                                  <div className="font-semibold text-sm">{child.label}</div>
+                                  <div className="text-xs text-muted-foreground">{child.value}</div>
+                                </div>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      ) : null}
                     </div>
                   );
                 })}
