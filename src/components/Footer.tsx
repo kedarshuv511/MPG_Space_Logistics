@@ -76,7 +76,7 @@ const Footer = () => {
                 </div>
               </a>
 
-              <p className="mt-4 text-sm md:text-base text-background/80 leading-relaxed max-w-xl text-justify indent-6">
+              <p className="mt-4 text-sm md:text-base text-background/80 leading-relaxed max-w-xl text-justify">
                 Grade A warehousing and distribution space on the Jhajjar–Rewari (NH 352) corridor,
                 designed for high-throughput operations and efficient Delhi NCR coverage. 
                 Mr. Sudhir Gupta and Mr. Vishesh Gupta are the visionary founders of the 
