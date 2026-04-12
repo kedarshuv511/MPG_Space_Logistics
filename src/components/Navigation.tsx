@@ -14,7 +14,7 @@ const Navigation = () => {
           <div className="flex items-center -ml-2 md:-ml-4">
             <div className="flex items-center">
               <a href="/" aria-label="Go to Home">
-                <img src={logo} alt="MPG Space and Logistics" className="h-72 md:h-96 lg:h-[30rem] object-contain" />
+                <img src={logo} alt="MPG Space and Logistics" className="h-56 md:h-80 lg:h-96 object-contain" />
               </a>
             </div>
           </div>
