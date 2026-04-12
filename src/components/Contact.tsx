@@ -166,8 +166,8 @@ const Contact = () => {
                   <div>
                     <h3 className="font-bold text-lg mb-2">Our Location</h3>
                         <p className="text-muted-foreground leading-relaxed">
-                          NH 71, Rewari-Jhajjhar Highway<br />
-                          Village: Amadalpur<br />
+                          MPG Space & Logistics, NH 71, Rewari-Jhajjhar Highway<br />
+                          Amadalpur, District Jhajjhar, Haryana 124103, India<br />
                           Coordinates: 28°27'18"N 76°39'25"E<br />
                           <span className="text-sm mt-2 block font-medium">Connected to: Reliance Met City, Rohtak-Hissar, Kundli, Palwal, Manesar, NH 48</span>
                         </p>
