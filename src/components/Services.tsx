@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { Package, Truck, Shield, Clock } from "lucide-react";
+import { Package, Truck, Shield, Clock, MapPin, Route, Warehouse, Ruler } from "lucide-react";
 
 const services = [
 	{
@@ -33,103 +33,154 @@ const Services = () => {
 		<section
 			id="services"
 			className="py-24 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden"
-		>
+			>
 			{/* Background decoration */}
 			<div className="absolute inset-0 opacity-5">
 				<div className="absolute top-0 left-0 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
 				<div className="absolute bottom-0 right-0 w-96 h-96 bg-accent rounded-full blur-3xl"></div>
 			</div>
 
-			<div className="container mx-auto px-4 relative z-10">
-				<div className="text-center mb-16">
-					<div className="inline-block mb-4">
-						<span className="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold">
-							Our Services
+				<div className="w-full px-6 md:px-12 lg:px-16 relative z-10">
+					<div className="text-center mb-16">
+						<div className="inline-block mb-4">
+							<span className="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold">
+								Our Services
 						</span>
 					</div>
 					<h2 className="text-4xl md:text-6xl font-extrabold mb-8 bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent">
 						About - MPG Space & Logistics
 					</h2>
-				</div>
-
-				<div className="w-full max-w-7xl mx-auto px-4 md:px-8 lg:px-16 py-12 flex flex-col md:flex-row items-center gap-12 bg-gradient-to-br from-white via-blue-50 to-accent/10 rounded-3xl shadow-lg">
-					{/* Left: Main Intro */}
-					<div className="flex-1 flex flex-col justify-center text-left">
-						<p className="mb-6 text-xl md:text-2xl text-foreground font-semibold">
-							Located near{" "}
-							<span className="text-primary font-bold">IMT Manesar in Gurgaon</span>
-							, MPG Space and Logistics Private Ltd is perfectly positioned to serve
-							Delhi, Gurugram, and North India’s major consumption hubs.
-						</p>
-						<p className="mb-6 text-lg md:text-xl text-muted-foreground">
-							The warehouse is close to Bilaspur Chowk and enjoys immediate access to
-							key highways —{" "}
-							<span className="font-bold text-primary">
-								NH-48 (Delhi-Jaipur/Mumbai Highway)
-							</span>{" "}
-							and{" "}
-							<span className="font-bold text-primary">
-								NH-352 (to Rewari/Bawal)
-							</span>
-							.
-						</p>
-						<p className="text-xl font-bold text-primary">
-							MPG Space and Logistics offers a prime destination for warehousing and
-							distribution in North India.
-						</p>
 					</div>
-					{/* Right: Key Highlights */}
-					<div className="flex-1 bg-white/80 backdrop-blur-lg border border-primary/20 rounded-2xl p-8 shadow-2xl flex flex-col justify-center min-w-[320px]">
-						<span className="block font-bold text-primary text-2xl mb-6 text-center tracking-wide">
-							Key Highlights
-						</span>
-						<ul className="space-y-6 text-lg">
-							<li className="flex items-start gap-3">
-								<span className="text-primary mt-1">🏭</span>
-								<span>
-									<span className="font-bold text-foreground">
-										Strategic Location:
-									</span>{" "}
-									Near important industrial areas like IMT Manesar and just a short
-									drive from Gurugram and Delhi.
-								</span>
-							</li>
-							<li className="flex items-start gap-3">
-								<span className="text-primary mt-1">🛣️</span>
-								<span>
-									<span className="font-bold text-foreground">
-										Excellent Connectivity:
-									</span>{" "}
-									Direct access to NH-48 and NH-352, and within 35 km of Indira
-									Gandhi International Airport.
-								</span>
-							</li>
-							<li className="flex items-start gap-3">
-								<span className="text-primary mt-1">🏢</span>
-								<span>
-									<span className="font-bold text-foreground">
-										Established Hub:
-									</span>{" "}
-									Surrounded by leading companies—Maruti Suzuki, Honda, Amazon,
-									Flipkart, and major logistics providers.
-								</span>
-							</li>
-							<li className="flex items-start gap-3">
-								<span className="text-primary mt-1">🏗️</span>
-								<span>
-									<span className="font-bold text-foreground">
-										Modern Infrastructure:
-									</span>{" "}
-									Part of a well-developed warehousing belt with reliable facilities.
-								</span>
-							</li>
-						</ul>
-					</div>
-				</div>
 
-				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-					{services.map((service, index) => (
-						<Card
+					<div className="w-full max-w-[1600px] mx-auto">
+						<div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-7 md:p-10">
+							<div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+								{/* Left: Description */}
+								<div className="text-left">
+									<h3 className="text-2xl md:text-3xl font-extrabold text-foreground leading-tight">
+										Strategic location for{" "}
+										<span className="text-primary">Delhi NCR</span> distribution
+									</h3>
+									<div className="mt-4 space-y-4 text-base md:text-lg text-muted-foreground leading-relaxed">
+										<p>
+											MPG Space & Logistics is a Grade A warehouse on the Jhajjar–Rewari
+											belt, positioned to cover Delhi NCR consumption demand and the
+											industrial markets of southern Haryana.
+										</p>
+										<p>
+											Located along the NH 352 corridor (formerly NH 71), the site connects
+											smoothly towards NH 48 (Delhi–Jaipur) and Gurugram-side routes. This
+											supports faster inbound/outbound movement for 3PL, e-commerce, FMCG,
+											and manufacturing supply chains.
+										</p>
+										<p>
+											The surrounding Luhari logistics belt has attracted blue-chip
+											occupiers such as DHL, Amazon, Flipkart, Myntra, Kuehne + Nagel,
+											Nissan Motors, and Miniso Lifestyle, reinforcing the area as an
+											established warehouse and distribution micro-market.
+										</p>
+										<p>
+											Multi-modal accessibility is strong, with Gurugram roughly 40 km away,
+											Indira Gandhi International Airport around 60 km, and New Delhi
+											Railway Station about 72–75 km. The corridor also links towards the
+											Kundli–Manesar–Palwal (KMP) Expressway at approximately 22 km.
+										</p>
+									</div>
+
+									<div className="mt-6 flex flex-wrap gap-2">
+										<span className="px-3 py-1.5 rounded-full text-sm font-semibold bg-primary/10 text-primary border border-primary/20">
+											NH 352 (ex NH 71)
+										</span>
+										<span className="px-3 py-1.5 rounded-full text-sm font-semibold bg-primary/10 text-primary border border-primary/20">
+											NH 48 connectivity
+										</span>
+										<span className="px-3 py-1.5 rounded-full text-sm font-semibold bg-primary/10 text-primary border border-primary/20">
+											High-throughput operations
+										</span>
+									</div>
+								</div>
+
+								{/* Right: Highlights + facts */}
+								<div className="text-left">
+									<div className="text-lg font-bold text-foreground">Key highlights</div>
+
+									<div className="mt-4 grid grid-cols-2 gap-3">
+										<div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+											<div className="text-xs font-semibold text-muted-foreground">Built-up</div>
+											<div className="text-lg font-extrabold text-foreground">125,000 sq ft</div>
+										</div>
+										<div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+											<div className="text-xs font-semibold text-muted-foreground">Loading docks</div>
+											<div className="text-lg font-extrabold text-foreground">27 docks</div>
+										</div>
+										<div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+											<div className="text-xs font-semibold text-muted-foreground">Center height</div>
+											<div className="text-lg font-extrabold text-foreground">16 m</div>
+										</div>
+										<div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+											<div className="text-xs font-semibold text-muted-foreground">Flooring</div>
+											<div className="text-lg font-extrabold text-foreground">FM-2</div>
+										</div>
+									</div>
+
+									<ul className="mt-6 space-y-4 text-base md:text-lg">
+										<li className="flex items-start gap-3">
+											<span className="mt-1 w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0">
+												<MapPin className="h-5 w-5 text-primary" />
+											</span>
+											<div>
+												<div className="font-bold text-foreground">Regional coverage</div>
+												<div className="text-muted-foreground">
+													Strong reach to Gurugram/Manesar, Rewari, Dharuhera, Bawal, and
+													Delhi NCR lanes.
+												</div>
+											</div>
+										</li>
+										<li className="flex items-start gap-3">
+											<span className="mt-1 w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0">
+												<Route className="h-5 w-5 text-primary" />
+											</span>
+											<div>
+												<div className="font-bold text-foreground">Practical connectivity</div>
+												<div className="text-muted-foreground">
+													Located for smoother dispatch planning with linkage towards NH 48
+													and major industrial corridors.
+												</div>
+											</div>
+										</li>
+										<li className="flex items-start gap-3">
+											<span className="mt-1 w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0">
+												<Warehouse className="h-5 w-5 text-primary" />
+											</span>
+											<div>
+												<div className="font-bold text-foreground">Throughput-ready design</div>
+												<div className="text-muted-foreground">
+													Layout and dock capacity built for high-volume inbound/outbound
+													operations.
+												</div>
+											</div>
+										</li>
+										<li className="flex items-start gap-3">
+											<span className="mt-1 w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0">
+												<Ruler className="h-5 w-5 text-primary" />
+											</span>
+											<div>
+												<div className="font-bold text-foreground">Modern Grade A spec</div>
+												<div className="text-muted-foreground">
+													PEB construction, glass wool insulation, FM-2 flooring, and safety
+													features aligned to warehouse operations.
+												</div>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+						{services.map((service, index) => (
+							<Card
 							key={index}
 							className="group relative overflow-hidden border-2 hover:border-transparent transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 hover:scale-[1.02]"
 						>
