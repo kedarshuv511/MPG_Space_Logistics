@@ -60,32 +60,13 @@ const Services = () => {
 									<h3 className="text-2xl md:text-3xl font-extrabold text-foreground leading-tight">
 										Strategic location for{" "}
 										<span className="text-primary">Delhi NCR</span> distribution
-									</h3>
-									<div className="mt-4 space-y-4 text-base md:text-lg text-muted-foreground leading-relaxed text-justify indent-6">
-										<p>
-											MPG Space & Logistics is a Grade A warehouse on the Jhajjar–Rewari
-											belt, positioned to cover Delhi NCR consumption demand and the
-											industrial markets of southern Haryana.
-										</p>
-										<p>
-											Located along the NH 352 corridor (formerly NH 71), the site connects
-											smoothly towards NH 48 (Delhi–Jaipur) and Gurugram-side routes. This
-											supports faster inbound/outbound movement for 3PL, e-commerce, FMCG,
-											and manufacturing supply chains.
-										</p>
-										<p>
-											The surrounding Luhari logistics belt has attracted blue-chip
-											occupiers such as DHL, Amazon, Flipkart, Myntra, Kuehne + Nagel,
-											Nissan Motors, and Miniso Lifestyle, reinforcing the area as an
-											established warehouse and distribution micro-market.
-										</p>
-										<p>
-											Multi-modal accessibility is strong, with Gurugram roughly 40 km away,
-											Indira Gandhi International Airport around 60 km, and New Delhi
-											Railway Station about 72–75 km. The corridor also links towards the
-											Kundli–Manesar–Palwal (KMP) Expressway at approximately 22 km.
-										</p>
-									</div>
+										</h3>
+										<div className="mt-4 space-y-4 text-base md:text-lg text-muted-foreground leading-relaxed text-justify">
+											<p>MPG Space & Logistics is a Grade A warehouse on the Jhajjar–Rewari belt, positioned to cover Delhi NCR consumption demand and the industrial markets of southern Haryana.</p>
+											<p>Located along the NH 352 corridor (formerly NH 71), the site connects smoothly towards NH 48 (Delhi–Jaipur) and Gurugram-side routes. This supports faster inbound/outbound movement for 3PL, e-commerce, FMCG, and manufacturing supply chains.</p>
+											<p>The surrounding Luhari logistics belt has attracted blue-chip occupiers such as DHL, Amazon, Flipkart, Myntra, Kuehne + Nagel, Nissan Motors, and Miniso Lifestyle, reinforcing the area as an established warehouse and distribution micro-market.</p>
+											<p>Multi-modal accessibility is strong, with Gurugram roughly 40 km away, Indira Gandhi International Airport around 60 km, and New Delhi Railway Station about 72–75 km. The corridor also links towards the Kundli–Manesar–Palwal (KMP) Expressway at approximately 22 km.</p>
+										</div>
 
 									<div className="mt-6 flex flex-wrap gap-2">
 										<span className="px-3 py-1.5 rounded-full text-sm font-semibold bg-primary/10 text-primary border border-primary/20">
