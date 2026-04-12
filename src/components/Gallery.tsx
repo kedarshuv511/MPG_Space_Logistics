@@ -17,6 +17,8 @@ const galleryCategories = [
   { id: 'features', label: 'Loading & Features', icon: TrendingUp },
 ];
 
+// Static gallery metadata. Image paths that point under `/src/assets/` will be
+// resolved to their final, hashed URLs by Vite below using import.meta.glob.
 const galleryItems = [
   // Exterior Photos
   {
@@ -141,13 +143,39 @@ const galleryItems = [
   },
 ];
 
+// Resolve any local asset paths (e.g. '/src/assets/Name.jpg') to the
+// production URLs emitted by Vite. This uses import.meta.glob to load all
+// matching files under src/assets and returns a map of filename -> url.
+const _imageModules = import.meta.glob('/src/assets/*.{png,jpg,jpeg}', { eager: true, as: 'url' }) as Record<string, string>;
+const _imageMap: Record<string, string> = Object.fromEntries(
+  Object.entries(_imageModules).map(([k, v]) => [k.replace('/src/assets/', ''), v])
+);
+
+function resolveImagePath(p?: string | null) {
+  if (!p) return p ?? null;
+  // Only rewrite local src asset references that start with the project path
+  if (p.startsWith('/src/assets/')) {
+    const key = p.replace('/src/assets/', '');
+    return _imageMap[key] ?? p; // fallback to original path if not found
+  }
+  return p;
+}
+
+// Use resolved URLs for runtime rendering. This keeps the original metadata
+// (titles, categories, etc.) but points `image`/`thumbnail` to the final URL.
+const galleryItemsResolved = galleryItems.map((it) => ({
+  ...it,
+  image: resolveImagePath(it.image as string) as string | null,
+  thumbnail: resolveImagePath((it as any).thumbnail) as string | null,
+}));
+
 const Gallery = () => {
   const [activeCategory, setActiveCategory] = useState('all');
-  const [selectedItem, setSelectedItem] = useState<typeof galleryItems[0] | null>(null);
+  const [selectedItem, setSelectedItem] = useState<typeof galleryItemsResolved[0] | null>(null);
 
-  const filteredItems = activeCategory === 'all' 
-    ? galleryItems 
-    : galleryItems.filter(item => item.category === activeCategory);
+  const filteredItems = activeCategory === 'all'
+    ? galleryItemsResolved
+    : galleryItemsResolved.filter(item => item.category === activeCategory);
 
   return (
     <section id="gallery" className="py-24 bg-gradient-to-b from-background via-secondary/10 to-background relative overflow-hidden">
