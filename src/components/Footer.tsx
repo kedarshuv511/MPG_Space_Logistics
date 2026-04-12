@@ -121,16 +121,16 @@ const Footer = () => {
                     <div className="text-background/80">Send an email</div>
                     <a
                       className="text-background hover:text-background/90 underline underline-offset-4"
-                      href="mailto:leasing@mpgspacelogistic.in"
+                      href="mailto:leasing@mpgspacelogistics.com"
                     >
-                      leasing@mpgspacelogistic.in
+                      leasing@mpgspacelogistics.com
                     </a>
                     <div>
                       <a
                         className="text-background hover:text-background/90 underline underline-offset-4"
-                        href="mailto:vishesh@mpgspacelogistic.in"
+                        href="mailto:vishesh@mpgspacelogistics.com"
                       >
-                        vishesh@mpgspacelogistic.in
+                        vishesh@mpgspacelogistics.com
                       </a>
                     </div>
                   </div>
@@ -212,8 +212,8 @@ const Footer = () => {
             {/* Right: leasing contact */}
             <div className="w-full md:w-auto text-sm text-background/70 text-center md:text-right">
               Leasing:{" "}
-              <a className="text-background/80 hover:text-background underline underline-offset-4" href="mailto:leasing@mpgspacelogistic.in">
-                leasing@mpgspacelogistic.in
+              <a className="text-background/80 hover:text-background underline underline-offset-4" href="mailto:leasing@mpgspacelogistics.com">
+                leasing@mpgspacelogistics.com
               </a>
             </div>
           </div>
