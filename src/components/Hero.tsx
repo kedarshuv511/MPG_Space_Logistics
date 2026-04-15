@@ -7,6 +7,7 @@ import mainImage2 from "@/assets/main_2.png";
 import mainImage3 from "@/assets/main_3.png";
 import mainImage4 from "@/assets/main_4.png";
 import mainImage5 from "@/assets/main_5.png";
+import brochurePdf from "@/assets/MPG_Logistics_Brochure.pdf";
 
 // Array of warehouse images in your preferred order
 const heroImages = [
@@ -178,8 +179,10 @@ const Hero = () => {
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </a>
             </Button>
-            <Button size="lg" variant="outline" className="text-lg bg-white/10 backdrop-blur-sm text-white border-white/30 hover:bg-white/20 hover:border-white/50">
-              Download Brochure
+            <Button asChild size="lg" variant="outline" className="text-lg bg-white/10 backdrop-blur-sm text-white border-white/30 hover:bg-white/20 hover:border-white/50">
+              <a href={brochurePdf} target="_blank" rel="noopener noreferrer">
+                Download Brochure
+              </a>
             </Button>
           </div>
 
