@@ -90,16 +90,9 @@ const galleryItems = [
     description: '16-meter center height, wide open space',
     image: '/src/assets/R2_View-14.jpg',
   },
+
   {
     id: 9,
-    category: 'interior',
-    type: 'image',
-    title: 'Storage Area',
-    description: 'FM-2 flooring, Grade A quality',
-    image: 'https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?w=800&q=80',
-  },
-  {
-    id: 10,
     category: 'interior',
     type: 'image',
     title: 'Mezzanine Floor',
@@ -108,7 +101,7 @@ const galleryItems = [
   },
   // Loading Docks & Features
   {
-    id: 11,
+    id: 10,
     category: 'features',
     type: 'image',
     title: 'Loading Docks',
@@ -116,7 +109,7 @@ const galleryItems = [
     image: '/src/assets/main_3.png',
   },
   {
-    id: 12,
+    id: 11,
     category: 'features',
     type: 'image',
     title: 'Dock Area',
@@ -124,7 +117,7 @@ const galleryItems = [
     image: '/src/assets/R2_View-4.jpg',
   },
   {
-    id: 13,
+    id: 12,
     category: 'features',
     type: 'image',
     title: 'Warehouse Entrance & Administrative Block',
@@ -132,15 +125,15 @@ const galleryItems = [
     image: '/src/assets/R2_View-7.jpg',
   },
   // Drone Video
-  {
-    id: 14,
-    category: 'exterior',
-    type: 'video',
-    title: 'Drone Video Tour',
-    description: 'Complete facility tour from above',
-    thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80',
-    videoUrl: '#', // Replace with actual video URL
-  },
+  // {
+  //   id: 13,
+  //   category: 'exterior',
+  //   type: 'video',
+  //   title: 'Drone Video Tour',
+  //   description: 'Complete facility tour from above',
+  //   thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80',
+  //   videoUrl: '#', // Replace with actual video URL
+  // },
 ];
 
 // Resolve any local asset paths (e.g. '/src/assets/Name.jpg') to the
