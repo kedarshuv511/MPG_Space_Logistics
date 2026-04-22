@@ -9,6 +9,7 @@ import {
   Shield,
   Users,
   Accessibility,
+
   Droplet,
   Sparkles,
   Bolt,
@@ -51,6 +52,7 @@ const keyUtilitiesSafety = [
   { title: "Electricity & Pump Room", description: "Dedicated utility infrastructure", icon: Bolt },
   { title: "STP & Water Storage", description: "On-site sewage treatment and reserve tanks", icon: Lightbulb },
   { title: "Rain Water Harvesting", description: "Sustainable stormwater capture and recharge", icon: Droplet },
+  { title: "Fresh / Sweet (non-saline) water", description: "Equipped with a fresh water source, our facility provides access to fresh, non-saline water", icon: Droplet, premium: true },
   { title: "24/7 Security & Monitoring", description: "Guard room, surveillance, controlled access", icon: Shield },
 ];
 
@@ -458,7 +460,7 @@ const Specifications = () => {
                 title={f.title}
                 description={f.description}
                 icon={f.icon}
-                premium={f.title === "Fire Safety System (NFPA Compliant)" || f.title === "Rain Water Harvesting"}
+                premium={Boolean((f as any).premium) || f.title === "Fire Safety System (NFPA Compliant)" || f.title === "Rain Water Harvesting"}
                 cardClasses="bg-blue-50 border-blue-200"
               />
             ))}
