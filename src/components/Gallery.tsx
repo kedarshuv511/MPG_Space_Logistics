@@ -88,7 +88,7 @@ const galleryItems = [
     type: 'image',
     title: 'Main Warehouse Space',
     description: '16-meter center height, wide open space',
-    image: '/src/assets/R2_View-13.jpg',
+    image: '/src/assets/R2_View-14.jpg',
   },
   {
     id: 9,
@@ -104,7 +104,7 @@ const galleryItems = [
     type: 'image',
     title: 'Mezzanine Floor',
     description: '565 sq meter mezzanine level',
-    image: '/src/assets/R2_View-14.jpg',
+    image: '/src/assets/R2_View-13.jpg',
   },
   // Loading Docks & Features
   {
