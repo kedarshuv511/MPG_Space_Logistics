@@ -238,7 +238,7 @@ const Contact = () => {
                                     </button>
                                     <div className="mt-3">
                                       <a
-                                        href="mailto:mpgspacelogistics.com"
+                                        href="mailto:leasing@mpgspacelogistics.com"
                                         onClick={() => {
                                           // @ts-ignore
                                           window.gtag && window.gtag('event', 'click', { event_category: 'contact', event_label: 'email_contact' });
@@ -246,7 +246,7 @@ const Contact = () => {
                                         className="inline-flex items-center gap-2 px-3 py-2 rounded bg-accent text-white text-sm"
                                       >
                                         <Mail className="h-4 w-4" />
-                                        mpgspacelogistics.com
+                                        leasing@mpgspacelogistics.com
                                       </a>
                                     </div>
                                   </div>
